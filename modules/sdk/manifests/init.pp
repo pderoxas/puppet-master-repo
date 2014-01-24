@@ -5,7 +5,7 @@ class sdk ($sdk_platform, $sdk_version, $sdk_root_dir) {
 
   include sdk::base
 
-  case $sdk_platform {
+  case $::sdk_platform {
       java:     { 
                   include sdk::java 
                   $sdk_repo = "java_repo"
@@ -26,7 +26,7 @@ class sdk ($sdk_platform, $sdk_version, $sdk_root_dir) {
   #base directory of sdk
   file { "basedir":
     ensure  => "directory",
-    path    => $sdk_root_dir,
+    path    => $::sdk_root_dir,
     recurse => true,
     purge   => true,
   }
@@ -36,7 +36,7 @@ class sdk ($sdk_platform, $sdk_version, $sdk_root_dir) {
   file { "versionfile":
     ensure   => "file",
     content  => "This is some meta data about the SDK",
-    path     => "$sdk_root_dir/sdk/$sdk_version.txt",
+    path     => "$::sdk_root_dir/sdk/$::sdk_version.txt",
     source_permissions => "ignore",
     require  => File['sdkdir'],
   }
@@ -45,7 +45,7 @@ class sdk ($sdk_platform, $sdk_version, $sdk_root_dir) {
   file { "sdkdir":
     ensure  => "directory",
     path    => "$sdk_root_dir/sdk",
-    source  => "puppet:///$sdk_repo/$sdk_version",
+    source  => "puppet:///$sdk::sdk_repo/$::sdk_version",
     source_permissions => "ignore",
     recurse => true,
     purge   => true,

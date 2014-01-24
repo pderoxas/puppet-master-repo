@@ -8,33 +8,6 @@ class sdk::base {
   $locationServiceBaseURI = hiera('locationService.baseURI', "")
   $locationId = hiera('location.id', "")
 
-  #base directory of sdk
-  file { "basedir":
-    ensure  => "directory",
-    path    => $sdk::sdk_root_dir,
-    recurse => true,
-    purge   => true,
-  }
 
-
-  #sdk version info file
-  file { "versionfile":
-    ensure   => "file",
-    content  => "This is some meta data about the SDK",
-    path     => "$sdk::sdk_root_dir/sdk/$sdk::sdk_version.txt",
-    source_permissions => "ignore",
-    require  => File['sdkdir'],
-  }
-
-
-  file { "sdkdir":
-    ensure  => "directory",
-    path    => "$sdk::sdk_root_dir/sdk",
-    source  => "puppet:///$sdk::sdk_repo/$sdk::sdk_version",
-    source_permissions => "ignore",
-    recurse => true,
-    purge   => true,
-    require => File['basedir'],
-  }
 
 }

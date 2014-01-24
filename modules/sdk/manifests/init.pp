@@ -1,6 +1,24 @@
 class sdk ($sdk_platform, $sdk_version, $sdk_root_dir) {
-  notify {"GEO Location=${::geo_location}, Store Number=${::store_number}, SDK Platform: $sdk_platform, SDK Version: $sdk_version, SDK Root Dir: $sdk_root_dir":
+  notify {"GEO Location=${::geo_location}, Store Number=${::store_number}, Group Name: ${::group_name}, SDK Platform: $sdk_platform, SDK Version: $sdk_version, SDK Root Dir: $sdk_root_dir":
     withpath => true,
+  }
+
+
+  case $sdk_platform {
+      java:     { 
+                  include sdk::java 
+                  $sdk_repo = "java_sdk_repo"
+                }
+      dotnet:   { 
+                  include sdk::dotnet
+                  $sdk_repo = "dotnet_sdk_repo" 
+                }
+      default:  { $sdk_repo = "" }
+  }
+
+  case $operatingsystem {
+      centos, redhat, debian, ubuntu: { include sdk::linux }
+      windows: { include sdk::windows }
   }
 
 
@@ -12,16 +30,27 @@ class sdk ($sdk_platform, $sdk_version, $sdk_root_dir) {
     purge   => true,
   }
 
-  case $sdk_platform {
-      java:     { include sdk::java }
-      dotnet:   { include sdk::dotnet }
+
+  #sdk version info file
+  file { "versionfile":
+    ensure   => "file",
+    content  => "This is some meta data about the SDK",
+    path     => "$sdk::sdk_root_dir/sdk/$sdk_version.txt",
+    source_permissions => "ignore",
+    require  => File['sdkdir'],
   }
 
-  case $operatingsystem {
-      centos, redhat, debian, ubuntu: { include sdk::linux }
-      windows: { include sdk::windows }
+
+  file { "sdkdir":
+    ensure  => "directory",
+    path    => "$sdk::sdk_root_dir/sdk",
+    source  => "puppet:///$sdk_repo/$sdk::sdk_version",
+    source_permissions => "ignore",
+    recurse => true,
+    purge   => true,
+    require => File['basedir'],
   }
+
 
 
 }
-

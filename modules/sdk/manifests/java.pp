@@ -6,7 +6,7 @@ class sdk::java {
         owner   => 'root',
         group   => 'root',
         mode    => '0644',        
-        content => template('sdk/SystemClient.properties.erb'),
+        content => template('sdk/ServiceClient.properties.erb'),
         require => File['sdkdir'],
   }
 

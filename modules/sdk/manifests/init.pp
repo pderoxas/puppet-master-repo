@@ -6,14 +6,8 @@ class sdk ($sdk_platform, $sdk_version, $sdk_root_dir) {
   include sdk::base
 
   case $sdk_platform {
-      java:     { 
-                  include sdk::java 
-                  $sdk_repo = "java_repo"
-                }
-      dotnet:   { 
-                  include sdk::dotnet
-                  $sdk_repo = "dotnet_repo" 
-                }
+      java:     { include sdk::java }
+      dotnet:   { include sdk::dotnet }
       default:  { $sdk_repo = "" }
   }
 

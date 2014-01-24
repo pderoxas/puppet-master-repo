@@ -27,9 +27,19 @@ class sdk::base {
   }
 
 
+  case $sdk_platform {
+      java:     { 
+                  $sdk_repo = "java_repo"
+                }
+      dotnet:   { 
+                  $sdk_repo = "dotnet_repo" 
+                }
+      default:  { $sdk_repo = "" }
+  }
+
   file { "sdkdir":
     ensure  => "directory",
-    path    => "$sdk::sdk_root_dir/sdk",
+    path    => "$sdk_root_dir/sdk",
     source  => "puppet:///$sdk::sdk_repo/$sdk::sdk_version",
     source_permissions => "ignore",
     recurse => true,

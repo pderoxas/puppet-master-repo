@@ -1,0 +1,13 @@
+---
+:backends:
+  - json
+
+:json:
+  :datadir: /etc/puppet/hieradata
+
+:hierarchy:
+  - "store_configs/%{::geo_location}/%{::store_number}"         
+  - "geo_location_configs/%{::geo_location}"
+  - common                                                                             
+
+

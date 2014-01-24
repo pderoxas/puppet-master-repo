@@ -11,7 +11,7 @@ class sdk::base {
   #base directory of sdk
   file { "basedir":
     ensure  => "directory",
-    path    => $sdk_root_dir,
+    path    => $sdk::sdk_root_dir,
     recurse => true,
     purge   => true,
   }
@@ -21,7 +21,7 @@ class sdk::base {
   file { "versionfile":
     ensure   => "file",
     content  => "This is some meta data about the SDK",
-    path     => "$sdk::sdk_root_dir/sdk/$sdk_version.txt",
+    path     => "$sdk::sdk_root_dir/sdk/$sdk::sdk_version.txt",
     source_permissions => "ignore",
     require  => File['sdkdir'],
   }
@@ -30,7 +30,7 @@ class sdk::base {
   file { "sdkdir":
     ensure  => "directory",
     path    => "$sdk::sdk_root_dir/sdk",
-    source  => "puppet:///$sdk_repo/$sdk::sdk_version",
+    source  => "puppet:///$sdk::sdk_repo/$sdk::sdk_version",
     source_permissions => "ignore",
     recurse => true,
     purge   => true,

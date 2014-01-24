@@ -1,12 +1,12 @@
 class sdk::java {
   #any java specific implementation can go here...
 
-  $openIdServiceBaseURI = hiera('openIdService.baseURI')
-  $openIdServiceRefreshToken = hiera('openIdService.refreshToken')
-  $openIdServiceClientID = hiera('openIdService.clientID')
-  $openIdServiceClientSecret = hiera('openIdService.clientSecret')
-  $locationServiceBaseURI = hiera('locationService.baseURI')
-  $locationId = hiera('location.id')
+  $openIdServiceBaseURI = hiera('openIdService.baseURI', "")
+  $openIdServiceRefreshToken = hiera('openIdService.refreshToken', "")
+  $openIdServiceClientID = hiera('openIdService.clientID', "")
+  $openIdServiceClientSecret = hiera('openIdService.clientSecret', "")
+  $locationServiceBaseURI = hiera('locationService.baseURI', "")
+  $locationId = hiera('location.id', "")
 
   file { "SystemClient.properties":
         path    => "$sdk::sdk_root_dir/sdk/SystemClient.properties",

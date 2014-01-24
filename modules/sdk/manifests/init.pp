@@ -3,11 +3,15 @@ class sdk ($sdk_platform, $sdk_version, $sdk_root_dir) {
     withpath => true,
   }
 
-  include sdk::base
-
   case $sdk_platform {
-      java:     { include sdk::java }
-      dotnet:   { include sdk::dotnet }
+      java:     { 
+                  include sdk::java 
+                  $sdk_repo = "java_repo"
+                }
+      dotnet:   { 
+                  include sdk::dotnet
+                  $sdk_repo = "dotnet_repo" 
+                }
       default:  { $sdk_repo = "" }
   }
 
@@ -15,5 +19,37 @@ class sdk ($sdk_platform, $sdk_version, $sdk_root_dir) {
       centos, redhat, debian, ubuntu: { include sdk::linux }
       windows: { include sdk::windows }
   }
+
+
+  #base directory of sdk
+  file { "basedir":
+    ensure  => "directory",
+    path    => $sdk_root_dir,
+    recurse => true,
+    purge   => true,
+  }
+
+
+  #sdk version info file
+  file { "versionfile":
+    ensure   => "file",
+    content  => "This is some meta data about the SDK",
+    path     => "$sdk_root_dir/sdk/$sdk_version.txt",
+    source_permissions => "ignore",
+    require  => File['sdkdir'],
+  }
+
+
+  file { "sdkdir":
+    ensure  => "directory",
+    path    => "$sdk_root_dir/sdk",
+    source  => "puppet:///$sdk_repo/$sdk_version",
+    source_permissions => "ignore",
+    recurse => true,
+    purge   => true,
+    require => File['basedir'],
+  }
+
+
 
 }

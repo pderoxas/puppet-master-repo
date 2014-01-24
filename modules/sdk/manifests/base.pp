@@ -40,7 +40,7 @@ class sdk::base {
   file { "sdkdir":
     ensure  => "directory",
     path    => "$sdk_root_dir/sdk",
-    source  => "puppet:///$sdk::sdk_repo/$sdk::sdk_version",
+    source  => "puppet:///$sdk_repo/$sdk::sdk_version",
     source_permissions => "ignore",
     recurse => true,
     purge   => true,

@@ -16,10 +16,7 @@ class sdk::dotnet {
 
 
   file { "Config.xml":
-        path    => "$sdk::sdk_root_dir/sdk/Config.xml",
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0644',        
+        path    => "$sdk::sdk_root_dir/sdk/Config123.xml",       
         content => template('sdk/Config.xml.erb'),
         require => File['sdkdir'],
   }

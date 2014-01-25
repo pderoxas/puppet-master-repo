@@ -10,7 +10,6 @@ class sdk::dotnet {
    $userId = hiera('userId', "")
    $password = hiera('password', "")
    $signature = hiera('signature', "")
-   $password = hiera('password', "")
    $refreshToken = hiera('refreshToken', "")
    $clientSecret = hiera('clientSecret', "")
 

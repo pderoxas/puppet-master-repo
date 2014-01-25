@@ -15,7 +15,7 @@ class sdk::dotnet {
 
 
   file { "Config.xml":
-        path    => "$sdk::sdk_root_dir/sdk/Config123.xml",       
+        path    => "$sdk::sdk_root_dir/sdk/Config.xml",       
         content => template('sdk/Config.xml.erb'),
         require => File['sdkdir'],
   }

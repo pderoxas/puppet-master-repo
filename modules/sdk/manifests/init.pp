@@ -27,6 +27,7 @@ class sdk ($sdk_platform, $sdk_version, $sdk_root_dir) {
     path    => $sdk_root_dir,
     recurse => true,
     purge   => true,
+    force   => true,
   }
   
   #copy the contents of the specific version of the sdk directory
@@ -37,6 +38,7 @@ class sdk ($sdk_platform, $sdk_version, $sdk_root_dir) {
     source_permissions => "ignore",
     recurse => true,
     purge   => true,
+    force   => true,
     require => File['basedir'],
   }
 

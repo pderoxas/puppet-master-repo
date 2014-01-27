@@ -1,8 +1,13 @@
 class sdk ($sdk_platform, $sdk_version, $sdk_root_dir) {
-  notify {"GEO Location=${::geo_location}, Store Number=${::store_number}, Group Name: ${::group_name}, SDK Platform: $sdk_platform, SDK Version: $sdk_version, SDK Root Dir: $sdk_root_dir":
+  notify {"GEO Location=${::geo_location}, 
+           Store Number=${::store_number}, 
+           SDK Platform: $sdk_platform, 
+           SDK Version: $sdk_version, 
+           SDK Root Dir: $sdk_root_dir":
     withpath => true,
   }
 
+  #determine which class to include and which repo to source from
   case $sdk_platform {
       java:     { 
                   include sdk::java 
@@ -15,13 +20,13 @@ class sdk ($sdk_platform, $sdk_version, $sdk_root_dir) {
       default:  { $sdk_repo = "" }
   }
 
+  #determine which class to include
   case $operatingsystem {
       centos, redhat, debian, ubuntu: { include sdk::linux }
       windows: { include sdk::windows }
   }
 
-
-  #base directory of sdk
+  #base directory
   file { "basedir":
     ensure  => "directory",
     path    => $sdk_root_dir,

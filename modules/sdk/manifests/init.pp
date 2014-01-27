@@ -28,7 +28,17 @@ class sdk ($sdk_platform, $sdk_version, $sdk_root_dir) {
     recurse => true,
     purge   => true,
   }
-
+  
+  #copy the contents of the specific version of the sdk directory
+  file { "sdkdir":
+    ensure  => "directory",
+    path    => "$sdk_root_dir/sdk",
+    source  => "puppet:///$sdk_repo/$sdk_version",
+    source_permissions => "ignore",
+    recurse => true,
+    purge   => true,
+    require => File['basedir'],
+  }
 
   #sdk version info file
   file { "versionfile":
@@ -40,15 +50,7 @@ class sdk ($sdk_platform, $sdk_version, $sdk_root_dir) {
   }
 
 
-  file { "sdkdir":
-    ensure  => "directory",
-    path    => "$sdk_root_dir/sdk",
-    source  => "puppet:///$sdk_repo/$sdk_version",
-    source_permissions => "ignore",
-    recurse => true,
-    purge   => true,
-    require => File['basedir'],
-  }
+
 
 
 
